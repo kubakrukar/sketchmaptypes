@@ -1,0 +1,12 @@
+install.packages(
+  "GPArotation",
+  "holepunch",
+  "irr",
+  "knitr",
+  "lavaan",
+  "psych",
+  "readxl",
+  "rmarkdown",
+  "semPlot",
+  "tidyverse"
+)
