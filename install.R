@@ -1,11 +1,9 @@
-install.packages(
-  "GPArotation",
-  "irr",
-  "knitr",
-  "lavaan",
-  "psych",
-  "readxl",
-  "rmarkdown",
-  "semPlot",
-  "tidyverse"
-)
+install.packages("rmarkdown")
+install.packages("knitr")
+install.packages("tidyverse")
+install.packages("psych")
+install.packages("irr")
+install.packages("lavaan")
+install.packages("readxl")
+install.packages("semPlot")
+install.packages("GPArotation")
