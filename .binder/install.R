@@ -1,6 +1,5 @@
 install.packages(
   "GPArotation",
-  "holepunch",
   "irr",
   "knitr",
   "lavaan",
