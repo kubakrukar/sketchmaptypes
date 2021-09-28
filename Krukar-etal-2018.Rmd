@@ -1,0 +1,217 @@
+---
+title: "Data analysis for: Distinguishing Sketch Map Types: A Flexible Feature-Based Classification"
+author: "Jakub Krukar (krukar@uni-muenster.de | http://krukar.staff.ifgi.de) (paper with: Stefan Muenzer, Lucas Loerch, Vanessa Joy Anacta, Stefan Fuest, Angela Schwering)"
+date: 28.09.2021
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, cache=TRUE)
+
+require(tidyverse)
+require(lavaan)
+require(readxl)
+require(knitr)
+require(semPlot)
+require(GPArotation)
+require(psych)
+library(irr)
+
+
+options(scipen=999)
+theme_set(theme_classic(base_size = 20))
+```
+
+# Preliminaries
+
+Loading data
+```{r}
+df <- read.csv("data/AlbanyMuensterMannheim.csv")
+df$city <- str_replace(df$city, "Albany.*", "Albany")
+df$city <- str_replace(df$city, "1", "Muenster")
+df$city <- str_replace(df$city, "2", "Mannheim")
+
+df2 <- read_excel("data/fictional.xlsx", na = "empty")
+df2 <- df2 %>% select(part.ID, R1:R6, S1:S6) %>% rename(city=part.ID, s1=S1, s2=S2, s3=S3, s4=S4, s5=S5, s6=S6, r1=R1, r2=R2, r3=R3, r4=R4, r5=R5, r6=R6)
+df2$city <- str_replace_all(df2$city, fixed(" "), "")
+df2$city <- paste0("fictional", df2$city)
+df <- bind_rows(df, df2)
+
+df$r1 <- as.ordered(df$r1)
+df$r2 <- as.ordered(df$r2)
+df$r3 <- as.ordered(df$r3)
+df$r4 <- as.ordered(df$r4)
+df$r5 <- as.ordered(df$r5)
+df$r6 <- as.ordered(df$r6)
+df$s1 <- as.ordered(df$s1)
+df$s2 <- as.ordered(df$s2)
+df$s3 <- as.ordered(df$s3)
+df$s4 <- as.ordered(df$s4)
+df$s5 <- as.ordered(df$s5)
+df$s6 <- as.ordered(df$s6)
+df$city <- as.factor(df$city)
+rm(df2)
+
+df2 <- select(df, -city)
+df2$r1 <- as.numeric(as.character(df$r1))
+df2$r2 <- as.numeric(as.character(df$r2))
+df2$r3 <- as.numeric(as.character(df$r3))
+df2$r4 <- as.numeric(as.character(df$r4))
+df2$r5 <- as.numeric(as.character(df$r5))
+df2$r6 <- as.numeric(as.character(df$r6))
+df2$s1 <- as.numeric(as.character(df$s1))
+df2$s2 <- as.numeric(as.character(df$s2))
+df2$s3 <- as.numeric(as.character(df$s3))
+df2$s4 <- as.numeric(as.character(df$s4))
+df2$s5 <- as.numeric(as.character(df$s5))
+df2$s6 <- as.numeric(as.character(df$s6))
+
+df.reliability <- read_excel("data/reliability_RS.xlsx")
+```
+
+
+
+**Section numbers below refer to corresponding sections in the published manuscript.**
+
+# 4.1 Data
+> Table 2
+
+```{r}
+select(df2, r1:s6) %>% summarise_all(funs(sum)) %>% 
+  kable(digits = 3, caption="Number of maps (out of 460) containing each criterion.")
+```
+
+---
+
+# 4.2 Inter-rater Reliability
+
+> Intra-class correlations (ICCs) were in the "good" range, ICC = 0.68 for the *route-likeness* dimension and ICC = 0.61 for the *survey-likeness* dimension.
+
+```{r}
+# rationale
+# https://www.theanalysisfactor.com/inter-rater-reliability-a-few-good-resources/
+
+##### HISTOGRAMS:
+# hist(df.reliability$R_sum_Rating1)
+# hist(df.reliability$S_sum_Rating1)
+
+# .r stands for routelikeness and .s stands for surveylikeness
+df.reliability.r <- df.reliability %>% select(R_sum_Rating1, R_sum_Rating2, R_sum_Rating3)
+df.reliability.r <- df.reliability.r[-11,] # this removes one case that was complete in .r but had NA in .s -> makes the number of sketch maps equal
+df.reliability.s <- df.reliability %>% select(S_sum_Rating1, S_sum_Rating2, S_sum_Rating3)
+
+# ICC for route-likeness:
+icc.r <- icc(df.reliability.r, model="twoway", type="agreement", unit="average")
+# ICC for survey-likeness:
+icc.s <- icc(df.reliability.s, model="twoway", type="agreement", unit="average")
+
+# results are in the 'good' range:
+# https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3402032/
+```
+
+Calculated ICC for route-likeness: `r round(icc.r$value, 2)`
+
+Calculated ICC for survey-likeness: `r round(icc.s$value, 2)`
+
+---
+
+# 4.3 Results
+
+> Table 3
+
+```{r}
+tetrachoric(df2)$rho %>% 
+  kable(digits = 2, caption="Tetrachoric correlations between individual items.")
+```
+
+---
+
+> A scree plot inspection of Eigenvalues indicated that the data coming from twelve criteria might be described best using a three-factor solution...
+
+```{r}
+fa.parallel(df2, fm="wls", cor="tet")
+```
+
+---
+
+> On theory-motivated grounds, we performed factor analysis restricted to two factors...
+
+```{r}
+z <- fa(df2,2, fm="wls", cor="tet")
+z
+```
+
+---
+
+> Table 4
+
+**Comment: The paper reported incorrect factor loadings.**
+(This mistake doesn't affect other results reported in the paper.)
+
+```{r}
+unclass(z$loadings) %>% 
+  kable(digits = 3, caption="Standardised Factor Loadings")
+```
+
+---
+
+> The correlation between the two factors equals 0.14
+
+```{r}
+round(z$crms,2)
+```
+
+---
+
+> Figure 2
+
+```{r}
+ploting <- as.data.frame(unclass(z$loadings))
+ploting <- rename(ploting, factor1=WLS1, factor2=WLS2)
+ploting$criterion <- rownames(ploting)
+ploting$Factor <- ifelse(str_detect(ploting$criterion, "r"), "routelikeness", "surveylikeness")
+
+ggplot(aes(x=factor1, y=factor2, label=criterion, fill=Factor), data=ploting) + theme_classic() + theme(text = element_text(size=20)) +
+  geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + geom_label(label.size = 0.5, fontface = "bold") + 
+   scale_y_continuous(breaks=seq(0,1,0.5), limits=c(-0.2,1)) + scale_x_continuous(breaks=seq(0,1,0.5), limits=c(-0.4,1))
+```
+
+---
+
+> Guttman’s Lambda 6 was 0.82 for the route-likeness dimension and 0.73 for the survey-likeness dimension.
+
+```{r}
+keys.list <- list(route= c("r1","r2","r3","r4","r5","r6"),
+                  survey=c("s1","s2","s3","s4","s5","s6"))
+reliability <- scoreItems(keys.list,df2)
+```
+
+Calculated Guttman's Lambda 6 reliability of route-likeness: `r round(reliability$G6[,"route"], 2)`
+
+Calculated Guttman's Lambda 6 reliability of survey-likeness: `r round(reliability$G6[,"survey"], 2)`
+
+---
+
+# 4.4 Discussion
+> In our dataset of 460 sketches, 327 scored at least one point on both dimensions
+
+```{r}
+df2 %>% mutate(r=r1+r2+r3+r4+r5+r6, s=s1+s2+s3+s4+s5+s6) %>% filter(r>0, s>0) %>% nrow()
+```
+
+---
+
+> Nevertheless, more discrete categorizations can be derived, if needed. For instance, it is possible to calculate the mean route-likeness and mean survey-likeness scores and classify sketch maps into four relative categories, depending on their score below or above the two means (Fig. 1 contains some examples). Performing this operation on our 460 sketches resulted in 116 maps falling into the “low - low” category, 84 sketches in the “low route - high survey” category, 95 sketches in the “high route - low survey” category, and 165 in the “high - high” category. The spread of these numbers highlights the fact that the two-dimensional scoring approach can capture the diversity of sketch maps and does not result in a disproportionally large number of “poor” maps.
+
+```{r}
+sum <- df2 %>% mutate(r=r1+r2+r3+r4+r5+r6, s=s1+s2+s3+s4+s5+s6)
+meanR <- mean(sum$r)
+meanS <- mean(sum$s)
+sum <- sum %>% mutate(cat = case_when(
+  r < meanR & s < meanS ~ "lowR-lowS",
+  r < meanR & s > meanS ~ "lowR-highS",
+  r > meanR & s < meanS ~ "highR-lowS",
+  r > meanR & s > meanS ~ "highR-highS"))
+table(sum$cat)
+```
