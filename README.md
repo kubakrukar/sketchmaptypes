@@ -24,7 +24,7 @@ There are 3 main ways in which you can use this repository:
 
 
 
-
+```
 > sessionInfo()
 > R version 4.0.2 (2020-06-22)
 > Platform: x86_64-apple-darwin17.0 (64-bit)
@@ -58,3 +58,4 @@ There are 3 main ways in which you can use this repository:
 > [91] crayon_1.3.4        fdrtool_1.2.16      tmvnsim_1.0-2       rmarkdown_2.6       jpeg_0.1-8.1        qgraph_1.6.9       
 > [97] grid_4.0.2          data.table_1.13.6   pbivnorm_0.6.0      matrixcalc_1.0-5    reprex_0.3.0        digest_0.6.27      
 >[103] xtable_1.8-4        mi_1.0              RcppParallel_5.0.2  stats4_4.0.2        munsell_0.5.0     
+```
