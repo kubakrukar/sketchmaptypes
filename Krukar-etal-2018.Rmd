@@ -16,7 +16,8 @@ require(knitr)
 require(semPlot)
 require(GPArotation)
 require(psych)
-library(irr)
+require(irr)
+require(here)
 
 
 options(scipen=999)
@@ -27,12 +28,12 @@ theme_set(theme_classic(base_size = 20))
 
 Loading data
 ```{r}
-df <- read.csv("data/AlbanyMuensterMannheim.csv")
+df <- read.csv(here("data", "AlbanyMuensterMannheim.csv"))
 df$city <- str_replace(df$city, "Albany.*", "Albany")
 df$city <- str_replace(df$city, "1", "Muenster")
 df$city <- str_replace(df$city, "2", "Mannheim")
 
-df2 <- read_excel("data/fictional.xlsx", na = "empty")
+df2 <- read_excel(here("data", "fictional.xlsx"), na = "empty")
 df2 <- df2 %>% select(part.ID, R1:R6, S1:S6) %>% rename(city=part.ID, s1=S1, s2=S2, s3=S3, s4=S4, s5=S5, s6=S6, r1=R1, r2=R2, r3=R3, r4=R4, r5=R5, r6=R6)
 df2$city <- str_replace_all(df2$city, fixed(" "), "")
 df2$city <- paste0("fictional", df2$city)
@@ -67,7 +68,7 @@ df2$s4 <- as.numeric(as.character(df$s4))
 df2$s5 <- as.numeric(as.character(df$s5))
 df2$s6 <- as.numeric(as.character(df$s6))
 
-df.reliability <- read_excel("data/reliability_RS.xlsx")
+df.reliability <- read_excel(here("data", "reliability_RS.xlsx"))
 ```
 
 
