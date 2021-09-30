@@ -18,7 +18,7 @@ There are 3 main ways in which you can use this repository:
 
 1. You can open 'Krukar-etal-2018.html' and look what code was used to achieve results from the paper.
 
-2. You can click on the 'lunch binder' button. This will open an interactive session of RStudio in your web browser. You are able to change the code there by selecting the file 'Krukar-etal-2018.Rmd' and re-generating the analysis with the 'Knit' button. Rememeber any changes will be lost as soon as you close the browser window.
+2. You can click on the 'lunch binder' button above. This will open an interactive session of RStudio in your web browser. You are able to change the code there by selecting the file 'Krukar-etal-2018.Rmd' and re-generating the analysis with the 'Knit' button. Rememeber any changes will be lost as soon as you close the browser window.
 
 3. You can download the code and data and and try to run it locally. This is likely to fail in the future when software versions change.
 
