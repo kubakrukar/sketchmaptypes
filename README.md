@@ -10,6 +10,8 @@ This repository contains data and code that reproduces statistical results, tabl
 
 Krukar, J., Münzer, S., Lörch, L., Anacta, V. J., Fuest, S., & Schwering, A. (2018). Distinguishing Sketch Map Types: A Flexible Feature-Based Classification. Spatial Cognition XI, 11th International Conference, Spatial Cognition 2018, Tübingen, Germany, September 5-8, 2018, Proceedings, 279–292. https://doi.org/10.1007/978-3-319-96385-3_19
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kubakrukar/sketchmaptypes/HEAD?urlpath=rstudio)
+
 
 
 There are 3 main ways in which you can use this repository:
