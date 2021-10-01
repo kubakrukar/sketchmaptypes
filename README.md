@@ -1,18 +1,12 @@
-Jakub Krukar
+# Distinguishing Sketch Map Types
 
-
-krukar@uni-muenster.de
-
-http://krukar.staff.ifgi.de
-
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kubakrukar/sketchmaptypes/HEAD?urlpath=rstudio)
 
 This repository contains data and code that reproduces statistical results, tables and figures from this paper:
 
 Krukar, J., Münzer, S., Lörch, L., Anacta, V. J., Fuest, S., & Schwering, A. (2018). Distinguishing Sketch Map Types: A Flexible Feature-Based Classification. Spatial Cognition XI, 11th International Conference, Spatial Cognition 2018, Tübingen, Germany, September 5-8, 2018, Proceedings, 279–292. https://doi.org/10.1007/978-3-319-96385-3_19
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kubakrukar/sketchmaptypes/HEAD?urlpath=rstudio)
-
-
+# Run this code
 
 There are 3 main ways in which you can use this repository:
 
@@ -65,3 +59,10 @@ loaded via a namespace (and not attached):
  [97] grid_4.0.2          data.table_1.13.6   pbivnorm_0.6.0      matrixcalc_1.0-5    reprex_0.3.0        digest_0.6.27      
 [103] xtable_1.8-4        mi_1.0              RcppParallel_5.0.2  stats4_4.0.2        munsell_0.5.0      
 ```
+
+Jakub Krukar
+
+krukar@uni-muenster.de
+
+http://krukar.staff.ifgi.de
+
