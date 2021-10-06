@@ -2,7 +2,7 @@
 title: "Data analysis for: Distinguishing Sketch Map Types: A Flexible Feature-Based Classification"
 author: "Jakub Krukar (krukar@uni-muenster.de | http://krukar.staff.ifgi.de) (paper with: Stefan Muenzer, Lucas Loerch, Vanessa Joy Anacta, Stefan Fuest, Angela Schwering)"
 date: 28.09.2021
-output: html_document
+output: github_document
 editor_options: 
   chunk_output_type: inline
 ---
