@@ -68,7 +68,7 @@ df2$s4 <- as.numeric(as.character(df$s4))
 df2$s5 <- as.numeric(as.character(df$s5))
 df2$s6 <- as.numeric(as.character(df$s6))
 
-df.reliability <- read_excel(here("data", "reliability_RS.xlsx"))
+df.reliability <- read_excel(here("data", "Reliability_RS.xlsx"))
 ```
 
 
